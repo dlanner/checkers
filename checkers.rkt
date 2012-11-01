@@ -8,7 +8,7 @@
 (cons 24 0) (cons 25 'X) (cons 26 0) (cons 27 'X) (cons 28 0) (cons 29 'X) (cons 30 0) (cons 31 'X)
 (cons 32 'X) (cons 33 0) (cons 34 'X) (cons 35 0) (cons 36 'X) (cons 37 0) (cons 38 'X) (cons 39 0)
 (cons 40 1) (cons 41 'X) (cons 42 1) (cons 43 'X) (cons 44 1) (cons 45 'X) (cons 46 1) (cons 47 'X)
-(cons 48 'X) (cons 49 1) (cons 50 'X) (cons 51 1) (cons 52 'X) (cons 53 1) (cons 54 'X) (cons 55 1)
+(cons 48 'X) (cons 49 0) (cons 50 'X) (cons 51 1) (cons 52 'X) (cons 53 1) (cons 54 'X) (cons 55 1)
 (cons 56 1) (cons 57 'X) (cons 58 1) (cons 59 'X) (cons 60 1) (cons 61 'X) (cons 62 1) (cons 63 'X)))
 
 ; TODO: Make more efficient (e.g. list-ref is called several times more than is minimal)
@@ -257,27 +257,24 @@
       board))
 
 (define (rejump board move-fn player oponent-player)
-  (let [(move (move-fn board))]
-    (if (and (valid-move-except-range? board move player oponent-player)
-             (move_in_jumpable_range? board move oponent-player))
-        (let [(new-board
-               (try-jump-chain board move move-fn player oponent-player))]
-          (print-board new-board)
-          new-board)
-        (rejump board move-fn player oponent-player))))
+  (begin
+    (print-board board)
+    (fprintf (current-output-port) "Player ~a: Move: " player)
+    (let [(move (move-fn board))]
+      (if (and (valid-move-except-range? board move player oponent-player)
+               (move_in_jumpable_range? board move oponent-player))
+          (let [(new-board
+                 (try-jump-chain board move move-fn player oponent-player))]
+            (print-board new-board)
+            new-board)
+          (rejump board move-fn player oponent-player)))))
 
-; TODO: Fix this
-; TODO: Properly handle/catch invalid moves
 (define (try-jump-chain board move move-fn player oponent-player)
   (let [(jump-board
          (try-crown (player-move-jump board move player oponent-player)
                     move player oponent-player))]
     (if (any-jump-moves-available? jump-board (cadr move) player oponent-player)
-        (begin
-          (print-board jump-board)
-          (fprintf (current-output-port) "You get to go again!\n")
-          (fprintf (current-output-port) "Move: ")
-          (rejump jump-board move-fn player oponent-player))
+        (rejump jump-board move-fn player oponent-player)
         jump-board)))
 
 ; TODO: Fix redundant print expressions called by map on move_in_jumpable_range?
