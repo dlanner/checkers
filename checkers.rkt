@@ -8,7 +8,7 @@
 (cons 24 0) (cons 25 'X) (cons 26 0) (cons 27 'X) (cons 28 0) (cons 29 'X) (cons 30 0) (cons 31 'X)
 (cons 32 'X) (cons 33 0) (cons 34 'X) (cons 35 0) (cons 36 'X) (cons 37 0) (cons 38 'X) (cons 39 0)
 (cons 40 1) (cons 41 'X) (cons 42 1) (cons 43 'X) (cons 44 1) (cons 45 'X) (cons 46 1) (cons 47 'X)
-(cons 48 'X) (cons 49 0) (cons 50 'X) (cons 51 1) (cons 52 'X) (cons 53 1) (cons 54 'X) (cons 55 1)
+(cons 48 'X) (cons 49 1) (cons 50 'X) (cons 51 1) (cons 52 'X) (cons 53 1) (cons 54 'X) (cons 55 1)
 (cons 56 1) (cons 57 'X) (cons 58 1) (cons 59 'X) (cons 60 1) (cons 61 'X) (cons 62 1) (cons 63 'X)))
 
 ; TODO: Make more efficient (e.g. list-ref is called several times more than is minimal)
